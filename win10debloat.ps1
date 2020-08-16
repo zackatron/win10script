@@ -12,7 +12,7 @@
 #
 #	Addition: One command to rule them all, One command to find it, and One command to Run it! 
 #
-#     > powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('https://git.io/JJ8R4')"
+#     > powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('https://git.io/JJFIv')"
 #
 #	Chris Titus Additions:
 #
@@ -23,6 +23,16 @@
 #	- Added Install Programs
 #	- Added Debloat Microsoft Store Apps
 #
+#	Zackatron Additions:
+#
+#	- Disabled Adobe
+#	- Replaced Java with AdoptOpenJDK
+#	- Added 'new' Edge browser (Chromium-based, replaces old Edge)
+#	- Disabled "Stop-EdgePDF" (Chromium Edge handles PDFs just fine)
+#	- Enabled Hyper-V (Required for WSL2)
+#	- Disabled Xbox features
+#	- Updated quick-deploy URL
+#
 ##########
 # Default preset
 $tweaks = @(
@@ -30,11 +40,13 @@ $tweaks = @(
 	"RequireAdmin",
 
 	### External Program Setup
-	"InstallTitusProgs", #REQUIRED FOR OTHER PROGRAM INSTALLS!
-	"InstallAdobe",
+	"InstallTitusProgs",            # REQUIRED FOR OTHER PROGRAM INSTALLS!
+	# "InstallAdobe",
 	"Install7Zip",
 	"InstallNotepadplusplus",
 	"InstallMediaPlayerClassic",
+	"InstallNewEdge"                # Installs *NEW* Edge (Chromium)
+	"InstallAdoptOpenJDK"           # Replaces "InstallJava"
 
 	### Windows Apps
 	"DebloatAll",
@@ -73,10 +85,10 @@ $tweaks = @(
 	"DisableDefender",              # "EnableDefender",
 	"DisableDefenderCloud",         # "EnableDefenderCloud",
 	"EnableF8BootMenu",             # "DisableF8BootMenu",
-	#"SetDEPOptOut",                # "SetDEPOptIn",
+	# "SetDEPOptOut",               # "SetDEPOptIn",
 	# "EnableCIMemoryIntegrity",    # "DisableCIMemoryIntegrity",
-	#"DisableScriptHost",           # "EnableScriptHost",
-	#"EnableDotNetStrongCrypto",    # "DisableDotNetStrongCrypto",
+	# "DisableScriptHost",          # "EnableScriptHost",
+	# "EnableDotNetStrongCrypto",   # "DisableDotNetStrongCrypto",
 	"DisableMeltdownCompatFlag",    # "EnableMeltdownCompatFlag"    
 
 	### Service Tweaks ###
@@ -123,7 +135,7 @@ $tweaks = @(
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	"EnableNumlock",             	# "DisableNumlock",
 	"EnableDarkMode",		# "DisableDarkMode",
-	"Stop-EdgePDF",
+	# "Stop-EdgePDF",
 
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
@@ -156,13 +168,13 @@ $tweaks = @(
 	"UninstallMsftBloat",           # "InstallMsftBloat",
 	"UninstallThirdPartyBloat",     # "InstallThirdPartyBloat",
 	# "UninstallWindowsStore",      # "InstallWindowsStore",
-	# "DisableXboxFeatures",        # "EnableXboxFeatures",
+	"DisableXboxFeatures",          # "EnableXboxFeatures",
 	"DisableAdobeFlash",            # "EnableAdobeFlash",
 	"InstallMediaPlayer", 		# "UninstallMediaPlayer",
 	"UninstallInternetExplorer",    # "InstallInternetExplorer",
 	"UninstallWorkFolders",         # "InstallWorkFolders",
 	"InstallLinuxSubsystem",        # "UninstallLinuxSubsystem",
-	# "InstallHyperV",              # "UninstallHyperV",
+	"InstallHyperV",                # "UninstallHyperV",
 	"SetPhotoViewerAssociation",    # "UnsetPhotoViewerAssociation",
 	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
 	"InstallPDFPrinter",		# "UninstallPDFPrinter",
@@ -206,9 +218,9 @@ Function InstallAdobe {
 	choco install adobereader -y
 }
 
-Function InstallJava {
-	Write-Output "Installing Java"
-	choco install jre8 -y
+Function InstallAdoptOpenJDK {
+	Write-Output "Installing AdoptOpenJDK (Java Alternative)"
+	choco install adoptopenjdk -y
 }
 
 Function Install7Zip {
@@ -224,6 +236,10 @@ Function InstallNotepadplusplus {
 Function InstallMediaPlayerClassic {
 	Write-Output "Installing Media Player Classic (VLC Alternative)"
 	choco install mpc-hc -y
+}
+Function InstallNewEdge {
+	Write-Output "Installing Microsoft Edge (Chromium-based Version)"
+	choco install microsoft-edge -y
 }
 
 ##########
